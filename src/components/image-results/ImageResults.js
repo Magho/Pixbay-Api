@@ -8,6 +8,28 @@ import FlatButton from 'material-ui/FlatButton';
 
 
 export default class ImageResults extends Component {
+
+	constructor (props) {
+		super(props);
+		this.state = {
+			open : false,
+			currentImg : '',
+		}
+	}
+
+	handelOpen = img => {
+		this.setState({
+			open : true,
+			currentImg : img,
+		});
+	}
+
+	handelClose = () => {
+		this.setState({
+			open : false,
+		});
+	}
+
 	render() {
 
 		let imageListContent;
@@ -17,16 +39,16 @@ export default class ImageResults extends Component {
 			imageListContent = (
 				<GridList cols={3}>
 					{images.map(img => (
-						<GridTile
-							title = {img.tags}
+						<GridTile 
+							title = {img.tags} 
 							key = {img.id}
-							subtitle={
+							subtitle = {
 								<span>
 									by <strong> {img.user} </strong>
 								</span>
 							}
 							actionIcon = {
-								<IconButton>
+								<IconButton onClick={this.handelOpen.bind(this, img.largeImageURL)}>
 									<ZoomIn color="white" />
 								</IconButton>
 							}
@@ -40,9 +62,16 @@ export default class ImageResults extends Component {
 			imageListContent = null;
 		}
 
+		const actions = [
+			<FlatButton label = "Close" primary={true} onClick={this.handelClose} />
+		]
+
 		return (
 			<div>
 				{imageListContent}
+				<Dialog actions={actions} modal={false} open={this.state.open} onRequestClose={this.handelClose}>
+					<img src={this.state.currentImg} alt="" style={{ width : '100%' }} />
+				</Dialog>
 			</div>
 		);
 	}

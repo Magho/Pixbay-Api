@@ -20,13 +20,20 @@ export default class Search extends Component {
 	}
 
 	onTextChange = e => {
-		this.setState ({ [e.target.name] : e.target.value }, () => {
-			axios.get(
+		
+		const val = e.target.value;
+		this.setState ({ [e.target.name] : val }, () => {
+
+			if (val === ''){
+				this.setState({images:[]});
+			} else {
+				axios.get(
 					`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.state.searchText}
 					&image_type=photo&per_page=${this.state.amount}&safesearch=true`
 				)
 				.then(res => this.setState({images : res.data.hits}))
 				.catch(err => console.log(err));
+			}
 		});
 	};
 
@@ -49,7 +56,9 @@ export default class Search extends Component {
 					floatingLabelText="Search For Images"
 					fullWidth={true}
 				/>
+
 				<br/>
+				
 				<SelectField
 					name = "amount"
 					floatingLabelText="Amount"
@@ -62,7 +71,9 @@ export default class Search extends Component {
 					<MenuItem value={30} primaryText="30" />
 					<MenuItem value={50} primaryText="50" />
 				</SelectField>
+
 				<br/>
+
 				{this.state.images.length > 0 ? (<ImageResults images={this.state.images}/>) : null}
 			</div>
 		);
