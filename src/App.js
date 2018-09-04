@@ -11,9 +11,11 @@ class App extends Component {
     return (
     	<MuiThemeProvider>
     		<div>
-    			<Navbar />  
-    			<Search />  			
-    		</div>
+    			<Navbar /> 
+            </div>
+            <div style={{padding : '30px'}}>
+                <Search />              
+            </div> 
     	</MuiThemeProvider>
     );
   }

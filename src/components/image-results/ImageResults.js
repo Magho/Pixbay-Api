@@ -39,7 +39,7 @@ export default class ImageResults extends Component {
 			imageListContent = (
 				<GridList cols={3}>
 					{images.map(img => (
-						<GridTile 
+						<GridTile
 							title = {img.tags} 
 							key = {img.id}
 							subtitle = {
@@ -53,7 +53,11 @@ export default class ImageResults extends Component {
 								</IconButton>
 							}
 						>
-							<img src={img.largeImageURL} alt="" />
+							<img
+								src={img.largeImageURL}
+								alt="" 
+								style={{backgroundRepeat:'no-repeat', backgroundPosition:'center', backgroundSize:'contain'}}
+							/>
 						</GridTile>
 					))}
 				</GridList>
