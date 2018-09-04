@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import axios from 'axios';
 
 export default class Search extends Component {
 
@@ -10,13 +11,27 @@ export default class Search extends Component {
 		this.state = {
 			searchText : '',
 			amount : 15,
-			apiurl : 'https://pixbay.com/api',
+			apiUrl : 'https://pixabay.com/api',
 			apiKey : '3140116-ece91c2045b92269443c366ba',
 			images : [] 
 		}
 	}
 
+	onTextChange = e => {
+		this.setState ({ [e.target.name] : e.target.value }, () => {
+			axios.get(
+					`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.state.searchText}
+					&image_type=photo&per_page=${this.state.amount}&safesearch=true`
+				)
+				.then(res => this.setState({images : res.data.hits}))
+				.catch(err => console.log(err));
+		});
+	};
+
 	render() {
+
+		console.log(this.state.images);
+
 		return (
 			<div>
 				<TextField 
